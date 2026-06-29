@@ -14,22 +14,18 @@ export const authOptions = {
       async authorize(credentials) {
         const { email, password, action } = credentials;
 
-        const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
-        const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+        const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "rakeshr9611@gmail.com";
+        const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Mets$$2025";
 
         if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
           return { id: "admin", name: "Joe", email: ADMIN_EMAIL };
         }
 
         if (action === "signup") {
-          return { id: String(Date.now()), name: credentials.name, email };
-        }
-
-        if (action === "login") {
           return { id: String(Date.now()), name: credentials.name || email.split("@")[0], email };
         }
 
-        return { id: String(Date.now()), name: credentials.name || email.split("@")[0], email };
+        return { id: String(Date.now()), name: email.split("@")[0], email };
       },
     }),
   ],
