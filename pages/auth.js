@@ -93,7 +93,6 @@ export default function AuthPage() {
             {mode === "login" ? "Sign up" : "Log in"}
           </span>
         </p>
-        <p style={S.demo}>Demo: <span style={{ color: "#D4A843" }}>demo@fiftykup.com</span> / <span style={{ color: "#D4A843" }}>demo123</span></p>
 
         <div style={{ display: "flex", justifyContent: "center", gap: "16px", marginTop: "20px" }}>
           {[["Privacy", "/privacy"], ["Terms", "/terms"], ["Compliance", "/compliance"]].map(([label, href]) => (
