@@ -4,6 +4,8 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import Footer from '../components/Footer'
 
+const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'rakeshr9611@gmail.com'
+
 function AuthGate({ Component, pageProps }) {
   const { data: session, status } = useSession()
   const router = useRouter()
@@ -12,13 +14,14 @@ function AuthGate({ Component, pageProps }) {
     if (status === 'loading') return
     const publicPages = ['/auth', '/subscribe']
     const isPublic = publicPages.includes(router.pathname)
+    const isAdmin = session?.user?.email === ADMIN_EMAIL
     const isSubscribed = typeof window !== 'undefined' && localStorage.getItem('fiftykup_subscribed') === 'true'
 
     if (!session && !isPublic) {
       router.replace('/auth')
-    } else if (session && !isSubscribed && !isPublic) {
+    } else if (session && !isSubscribed && !isPublic && !isAdmin) {
       router.replace('/subscribe')
-    } else if (session && isSubscribed && router.pathname === '/subscribe') {
+    } else if (session && (isSubscribed || isAdmin) && router.pathname === '/subscribe') {
       router.replace('/')
     }
   }, [session, status, router.pathname])
