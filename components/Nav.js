@@ -33,7 +33,12 @@ export default function Nav() {
       <div style={styles.right}>
         {session ? (
           <>
-            <span style={styles.user}>{session.user.email}</span>
+            <button
+              style={{ ...styles.logoutBtn, ...(router.pathname === "/profile" ? { color: "#D4A843", borderColor: "rgba(212,168,67,0.3)" } : {}) }}
+              onClick={() => router.push("/profile")}
+            >
+              My Account
+            </button>
             <button style={styles.logoutBtn} onClick={() => signOut({ callbackUrl: "/auth" })}>
               Log Out
             </button>
@@ -63,10 +68,9 @@ const styles = {
     fontSize: "0.85rem", fontWeight: 500, whiteSpace: "nowrap", transition: "all 0.15s",
   },
   tabActive: { background: "rgba(212,168,67,0.1)", color: "#D4A843", fontWeight: 700 },
-  right: { display: "flex", alignItems: "center", gap: "12px", marginLeft: "auto" },
-  user: { fontSize: "0.78rem", color: "#555", whiteSpace: "nowrap" },
+  right: { display: "flex", alignItems: "center", gap: "8px", marginLeft: "auto" },
   logoutBtn: {
     background: "#161616", border: "1px solid #222", color: "#E8E8E8",
-    borderRadius: "8px", padding: "6px 14px", fontSize: "0.8rem", fontWeight: 600,
+    borderRadius: "8px", padding: "6px 14px", fontSize: "0.8rem", fontWeight: 600, cursor: "pointer",
   },
 };
