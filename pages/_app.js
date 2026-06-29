@@ -2,6 +2,7 @@ import '../styles/globals.css'
 import { SessionProvider, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import Footer from '../components/Footer'
 
 function AuthGate({ Component, pageProps }) {
   const { data: session, status } = useSession()
@@ -23,7 +24,14 @@ function AuthGate({ Component, pageProps }) {
   }, [session, status, router.pathname])
 
   if (status === 'loading') return <div style={{ background: '#0A0A0A', minHeight: '100vh' }} />
-  return <Component {...pageProps} />
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <div style={{ flex: 1 }}>
+        <Component {...pageProps} />
+      </div>
+      <Footer />
+    </div>
+  )
 }
 
 export default function MyApp({ Component, pageProps }) {
