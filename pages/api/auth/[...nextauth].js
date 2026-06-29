@@ -12,25 +12,12 @@ export const authOptions = {
         action: { label: "Action", type: "text" },
       },
       async authorize(credentials) {
-        const { email, password, name, action } = credentials;
-        if (!email) return null;
-
-        const ADMIN_EMAIL = "rakeshr9611@gmail.com";
-        const ADMIN_PASSWORD = "Mets$$2025";
-
-        if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-          return { id: "admin", name: "Joe", email: ADMIN_EMAIL };
-        }
-
-        if (action === "signup") {
-          return { id: String(Date.now()), name: name || email.split("@")[0], email };
-        }
-
-        if (action === "login") {
-          return { id: String(Date.now()), name: email.split("@")[0], email };
-        }
-
-        return null;
+        if (!credentials?.email) return null;
+        return {
+          id: String(Date.now()),
+          name: credentials.name || credentials.email.split("@")[0],
+          email: credentials.email,
+        };
       },
     }),
   ],
