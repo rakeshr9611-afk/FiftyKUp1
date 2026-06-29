@@ -1,8 +1,11 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "rakeshr9611@gmail.com";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Mets$$2025";
+
 const users = [
-  { id: "1", name: "Demo User", email: "demo@fiftykup.com", password: "demo123" },
+  { id: "admin", name: "Joe", email: ADMIN_EMAIL, password: ADMIN_PASSWORD },
 ];
 
 export const authOptions = {
