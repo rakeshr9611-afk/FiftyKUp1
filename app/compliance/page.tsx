@@ -7,9 +7,9 @@ export default function CompliancePage() {
         <p className="text-yellow-300 text-sm font-medium leading-relaxed">⚠️ FiftyKUp is NOT a registered investment advisor, broker-dealer, or financial institution. The App does not execute trades, hold funds, or provide personalized investment advice.</p>
       </div>
       <section className="mb-8"><h2 className="text-lg font-semibold text-white mb-2">Regulatory Status</h2><p className="text-sm leading-relaxed text-white/70">FiftyKUp is an educational software application, not registered with the SEC, FINRA, or any state securities regulator.</p></section>
+      <section className="mb-8"><h2 className="text-lg font-semibold text-white mb-2">Age Advisory</h2><p className="text-sm leading-relaxed text-white/70">There is no strict age requirement to use FiftyKUp. However, the app is advised for users 18 and older given its financial education content. Users under 18 are encouraged to use the app with parental guidance.</p></section>
       <section className="mb-8"><h2 className="text-lg font-semibold text-white mb-2">Data Security</h2><p className="text-sm leading-relaxed text-white/70">User data is encrypted at rest and in transit (TLS 1.2+). Payment processing is handled by Stripe, a PCI DSS Level 1 compliant provider.</p></section>
-      <section className="mb-8"><h2 className="text-lg font-semibold text-white mb-2">COPPA</h2><p className="text-sm leading-relaxed text-white/70">FiftyKUp does not knowingly collect personal information from children under 13.</p></section>
-      <section className="mb-8"><h2 className="text-lg font-semibold text-white mb-2">Contact</h2><p className="text-sm leading-relaxed text-white/70">support@fiftykup.com</p></section>
+      <section className="mb-8"><h2 className="text-lg font-semibold text-white mb-2">Contact</h2><p className="text-sm leading-relaxed text-white/70">fiftykup@yahoo.com</p></section>
     </div>
   );
 }
