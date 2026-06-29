@@ -9,21 +9,17 @@ export default function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [agreed, setAgreed] = useState(false);
-  const [ageConfirmed, setAgeConfirmed] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
-    if (mode === "signup") {
-      if (!ageConfirmed) return setError("You must confirm you are 18 or older.");
-      if (!agreed) return setError("You must agree to the Terms of Service and Privacy Policy.");
-    }
+    if (mode === "signup" && !agreed) return setError("You must agree to the Terms of Service and Privacy Policy.");
     setLoading(true);
     try {
       const res = await signIn("credentials", { redirect: false, email, password, name, action: mode });
-      if (res?.error) { setError(res.error); }
+      if (res?.error) { setError("Invalid email or password."); }
       else { router.push(mode === "signup" ? "/subscribe" : "/"); }
     } catch { setError("Something went wrong."); }
     finally { setLoading(false); }
@@ -34,7 +30,7 @@ export default function AuthPage() {
       <div style={{ position: "fixed", top: "20%", left: "50%", transform: "translateX(-50%)", width: "600px", height: "300px", background: "radial-gradient(ellipse, rgba(212,168,67,0.08) 0%, transparent 70%)", pointerEvents: "none" }} />
       <div style={S.card}>
         <div style={S.logo}><span style={{ color: "#D4A843" }}>FIFTYK</span><span>UP</span></div>
-        <p style={S.tagline}>Your path to the first fifty thousand.</p>
+        <p style={S.tagline}>Your Path To $50K</p>
 
         <div style={S.tabs}>
           <button style={{ ...S.tab, ...(mode === "login" ? S.tabActive : {}) }} onClick={() => { setMode("login"); setError(""); }}>Log In</button>
@@ -58,26 +54,16 @@ export default function AuthPage() {
           </div>
 
           {mode === "signup" && (
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px", background: "#0A0A0A", borderRadius: "10px", padding: "14px" }}>
-              <label style={{ display: "flex", alignItems: "flex-start", gap: "10px", cursor: "pointer" }}>
-                <input type="checkbox" checked={ageConfirmed} onChange={e => setAgeConfirmed(e.target.checked)}
-                  style={{ marginTop: "2px", accentColor: "#D4A843", flexShrink: 0 }} />
-                <span style={{ color: "#888", fontSize: "0.8rem", lineHeight: 1.5 }}>
-                  I confirm that I am <strong style={{ color: "#E8E8E8" }}>18 years of age or older</strong>. Users under 18 require parental consent.
-                </span>
-              </label>
-              <label style={{ display: "flex", alignItems: "flex-start", gap: "10px", cursor: "pointer" }}>
-                <input type="checkbox" checked={agreed} onChange={e => setAgreed(e.target.checked)}
-                  style={{ marginTop: "2px", accentColor: "#D4A843", flexShrink: 0 }} />
-                <span style={{ color: "#888", fontSize: "0.8rem", lineHeight: 1.5 }}>
-                  I agree to the{" "}
-                  <a href="/terms" target="_blank" style={{ color: "#D4A843", textDecoration: "none", fontWeight: 600 }}>Terms of Service</a>
-                  {" "}and{" "}
-                  <a href="/privacy" target="_blank" style={{ color: "#D4A843", textDecoration: "none", fontWeight: 600 }}>Privacy Policy</a>.
-                  FiftyKUp is not financial advice.
-                </span>
-              </label>
-            </div>
+            <label style={{ display: "flex", alignItems: "flex-start", gap: "10px", cursor: "pointer", background: "#0A0A0A", borderRadius: "10px", padding: "14px" }}>
+              <input type="checkbox" checked={agreed} onChange={e => setAgreed(e.target.checked)} style={{ marginTop: "2px", accentColor: "#D4A843", flexShrink: 0 }} />
+              <span style={{ color: "#888", fontSize: "0.8rem", lineHeight: 1.5 }}>
+                I agree to the{" "}
+                <a href="/terms" target="_blank" style={{ color: "#D4A843", textDecoration: "none", fontWeight: 600 }}>Terms of Service</a>
+                {" "}and{" "}
+                <a href="/privacy" target="_blank" style={{ color: "#D4A843", textDecoration: "none", fontWeight: 600 }}>Privacy Policy</a>.
+                FiftyKUp is not financial advice.
+              </span>
+            </label>
           )}
 
           {error && <p style={S.error}>{error}</p>}
@@ -120,5 +106,4 @@ const S = {
   btn: { background: "linear-gradient(135deg,#D4A843,#F0C75A)", color: "#0A0A0A", border: "none", borderRadius: "10px", padding: "14px", fontWeight: 800, fontSize: "1rem", cursor: "pointer", marginTop: "4px" },
   switch: { textAlign: "center", color: "#555", fontSize: "0.85rem", marginTop: "20px" },
   switchLink: { color: "#D4A843", cursor: "pointer", fontWeight: 600 },
-  demo: { textAlign: "center", color: "#333", fontSize: "0.78rem", marginTop: "12px" },
 };
