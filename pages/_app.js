@@ -1,0 +1,35 @@
+import '../styles/globals.css'
+import { SessionProvider, useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
+
+function AuthGate({ Component, pageProps }) {
+  const { data: session, status } = useSession()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (status === 'loading') return
+    const publicPages = ['/auth', '/subscribe']
+    const isPublic = publicPages.includes(router.pathname)
+    const isSubscribed = typeof window !== 'undefined' && localStorage.getItem('fiftykup_subscribed') === 'true'
+
+    if (!session && !isPublic) {
+      router.replace('/auth')
+    } else if (session && !isSubscribed && !isPublic) {
+      router.replace('/subscribe')
+    } else if (session && isSubscribed && router.pathname === '/subscribe') {
+      router.replace('/')
+    }
+  }, [session, status, router.pathname])
+
+  if (status === 'loading') return <div style={{ background: '#0A0A0A', minHeight: '100vh' }} />
+  return <Component {...pageProps} />
+}
+
+export default function MyApp({ Component, pageProps }) {
+  return (
+    <SessionProvider session={pageProps.session}>
+      <AuthGate Component={Component} pageProps={pageProps} />
+    </SessionProvider>
+  )
+}
