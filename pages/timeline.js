@@ -15,13 +15,18 @@ export default function Timeline() {
 
   useEffect(() => {
     if (status === "unauthenticated") router.push("/auth");
-    const s = localStorage.getItem("fku_stack"); if (s) setStack(JSON.parse(s));
-    const b = localStorage.getItem("fku_bills"); if (b) setBills(JSON.parse(b));
+    const raw = localStorage.getItem("fku_v4");
+    if (raw) {
+      const d = JSON.parse(raw);
+      if (d.income) setStack(d.income);
+      if (d.bills) setBills(d.bills);
+      if (d.saveRate) setSaveRate(d.saveRate);
+    }
   }, [status]);
 
   if (status === "loading" || !session) return null;
 
-  const totalIncome = stack.reduce((sum, s) => sum + (s.monthly || 0), 0);
+  const totalIncome = stack.reduce((sum, s) => sum + ((parseFloat(s.weekly) || 0) * 4.33), 0);
   const totalBills = bills.reduce((sum, b) => sum + (b.amount || 0), 0);
   const netMonthly = Math.max(0, totalIncome - totalBills);
   const monthlySaved = (netMonthly * saveRate) / 100;

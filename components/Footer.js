@@ -13,7 +13,7 @@ export default function Footer() {
             <a key={href} href={href} style={S.link}>{label}</a>
           ))}
           <p style={S.linkHead} style={{ marginTop: "16px" }}>CONTACT</p>
-          <a href="mailto:support@fiftykup.com" style={S.link}>support@fiftykup.com</a>
+          <a href="mailto:fiftykup@yahoo.com" style={S.link}>fiftykup@yahoo.com</a>
         </div>
       </div>
     </footer>
