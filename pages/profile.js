@@ -95,7 +95,7 @@ export default function ProfilePage() {
           </div>
           {confirmUnsub && (
             <div style={S.confirmBox}>
-              <p style={S.confirmText}>Are you sure you want to cancel? You will keep access until the end of your current billing period. To stop Stripe charges, also email fiftykup@yahoo.com with subject "Cancel Subscription."</p>
+              <p style={S.confirmText}>Are you sure you want to cancel? You will keep access until the end of your current billing period. Cancellation is processed automatically.</p>
               <div style={{ display: "flex", gap: "10px" }}>
                 <button style={{ ...S.btn, ...S.redBtn }} onClick={handleUnsubscribe}>Yes, Cancel</button>
                 <button style={{ ...S.btn, ...S.grayBtn }} onClick={() => setConfirmUnsub(false)}>Keep Subscription</button>
