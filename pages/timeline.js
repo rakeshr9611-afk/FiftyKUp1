@@ -19,7 +19,7 @@ export default function Timeline() {
     if (raw) {
       const d = JSON.parse(raw);
       if (d.income) setStack(d.income);
-      if (d.bills) setBills(d.bills);
+      const rawBills = localStorage.getItem("fku_bills"); if (rawBills) setBills(JSON.parse(rawBills));
       if (d.saveRate) setSaveRate(d.saveRate);
     }
   }, [status]);
@@ -27,7 +27,7 @@ export default function Timeline() {
   if (status === "loading" || !session) return null;
 
   const totalIncome = stack.reduce((sum, s) => sum + ((parseFloat(s.weekly) || 0) * 4.33), 0);
-  const totalBills = bills.reduce((sum, b) => sum + (b.amount || 0), 0);
+  const totalBills = bills.reduce((sum, b) => sum + (Number(b.amount) || 0), 0);
   const netMonthly = Math.max(0, totalIncome - totalBills);
   const monthlySaved = (netMonthly * saveRate) / 100;
   const remaining = Math.max(0, GOAL - saved);

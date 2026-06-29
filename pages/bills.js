@@ -34,7 +34,7 @@ export default function Bills() {
     }
   }, [status]);
 
-  function saveBills(b, c) { localStorage.setItem("fku_bills", JSON.stringify([...b, ...c])); }
+  function saveBills(b, c) { const combined = [...b, ...c]; localStorage.setItem("fku_bills", JSON.stringify(combined)); }
   function updateBill(id, val) { const updated = bills.map(b => b.id === id ? { ...b, amount: Number(val) || 0 } : b); setBills(updated); saveBills(updated, custom); }
   function addCustom() {
     if (!newName.trim() || !newAmt) return;
@@ -47,8 +47,8 @@ export default function Bills() {
   if (status === "loading" || !session) return null;
 
   const totalBills = [...bills, ...custom].reduce((sum, b) => sum + (b.amount || 0), 0);
-  const stack = JSON.parse(typeof window !== "undefined" ? localStorage.getItem("fku_stack") || "[]" : "[]");
-  const totalIncome = stack.reduce((sum, s) => sum + (s.monthly || 0), 0);
+  const stack = JSON.parse(typeof window !== "undefined" ? localStorage.getItem("fku_v4") || "{}" : "{}");
+  const totalIncome = (stack.income || []).reduce((sum, s) => sum + ((parseFloat(s.weekly) || 0) * 4.33), 0);
   const netMonthly = totalIncome - totalBills;
 
   return (
