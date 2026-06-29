@@ -1,13 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "rakeshr9611@gmail.com";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Mets$$2025";
-
-const users = [
-  { id: "admin", name: "Joe", email: ADMIN_EMAIL, password: ADMIN_PASSWORD },
-];
-
 export const authOptions = {
   providers: [
     CredentialsProvider({
@@ -19,17 +12,24 @@ export const authOptions = {
         action: { label: "Action", type: "text" },
       },
       async authorize(credentials) {
-        const { email, password, name, action } = credentials;
-        if (action === "signup") {
-          const existing = users.find(u => u.email === email);
-          if (existing) throw new Error("Email already in use");
-          const newUser = { id: String(Date.now()), name, email, password };
-          users.push(newUser);
-          return { id: newUser.id, name: newUser.name, email: newUser.email };
+        const { email, password, action } = credentials;
+
+        const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+        const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+
+        if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+          return { id: "admin", name: "Joe", email: ADMIN_EMAIL };
         }
-        const user = users.find(u => u.email === email && u.password === password);
-        if (!user) throw new Error("Invalid email or password");
-        return { id: user.id, name: user.name, email: user.email };
+
+        if (action === "signup") {
+          return { id: String(Date.now()), name: credentials.name, email };
+        }
+
+        if (action === "login") {
+          return { id: String(Date.now()), name: credentials.name || email.split("@")[0], email };
+        }
+
+        return { id: String(Date.now()), name: credentials.name || email.split("@")[0], email };
       },
     }),
   ],
